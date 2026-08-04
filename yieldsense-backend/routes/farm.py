@@ -2,7 +2,6 @@ from fastapi import APIRouter
 from pydantic import BaseModel
 from database import SessionLocal
 from models.farm import Farm
-from routes import farm
 
 router = APIRouter()
 

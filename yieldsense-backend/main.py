@@ -15,13 +15,14 @@ from routes import weather
 from routes import soil
 from routes import history
 from routes import farm
+from routes import recommendations
 
 # Create Database Tables
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(
     title="YieldSense AI Backend",
-    version="2.0.0"
+    version="3.0.0"
 )
 
 # CORS Configuration
@@ -42,7 +43,7 @@ def home():
     return {
         "message": "Welcome to YieldSense AI Backend!",
         "status": "Running",
-        "version": "2.0.0"
+        "version": "3.0.0"
     }
 
 # Include Routers
@@ -52,3 +53,4 @@ app.include_router(weather.router)
 app.include_router(soil.router)
 app.include_router(history.router)
 app.include_router(farm.router)
+app.include_router(recommendations.router)
