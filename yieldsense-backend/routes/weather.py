@@ -1,17 +1,27 @@
-from fastapi import APIRouter, HTTPException
+import os
 import requests
+from fastapi import APIRouter, HTTPException
+from dotenv import load_dotenv
+
+load_dotenv()
 
 router = APIRouter()
 
-API_KEY = "da7510e8c8bc468afaa172118ac95fda"
-
+API_KEY = os.getenv("OPENWEATHER_API_KEY")
 CITY = "Hyderabad"
+
 
 @router.get("/weather")
 def get_weather():
 
+    if not API_KEY:
+        raise HTTPException(
+            status_code=500,
+            detail="OpenWeatherMap API key is not configured"
+        )
+
     url = (
-        f"https://api.openweathermap.org/data/2.5/weather"
+        "https://api.openweathermap.org/data/2.5/weather"
         f"?q={CITY}&appid={API_KEY}&units=metric"
     )
 
@@ -26,10 +36,10 @@ def get_weather():
     data = response.json()
 
     return {
-        "city": data["name"],
         "temperature": data["main"]["temp"],
         "humidity": data["main"]["humidity"],
         "wind_speed": data["wind"]["speed"],
         "weather": data["weather"][0]["main"],
+        "city": data["name"],
         "description": data["weather"][0]["description"]
     }
