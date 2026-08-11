@@ -1,5 +1,7 @@
 "use client";
 
+import { useEffect, useState } from "react";
+
 import Sidebar from "../components/Sidebar";
 import YieldTrendChart from "../components/YieldTrendChart";
 import SeasonalBarChart from "../components/SeasonalBarChart";
@@ -8,12 +10,37 @@ import RecommendationCard from "../components/RecommendationCard";
 import DownloadReportButton from "../components/DownloadReportButton";
 
 export default function DashboardPage() {
+  const [productivityScore, setProductivityScore] = useState<number | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [message, setMessage] = useState("");
+
   const recommendations = [
     "Apply agricultural lime to improve soil pH.",
     "Increase nitrogen fertilizer.",
     "Use drip irrigation.",
     "Monitor weather updates.",
   ];
+
+  useEffect(() => {
+    fetch("http://127.0.0.1:8000/dashboard/summary")
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to load dashboard data");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setProductivityScore(data.productivity_score);
+        setMessage(data.message);
+      })
+      .catch((error) => {
+        console.error(error);
+        setMessage("Unable to load dashboard data.");
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, []);
 
   return (
     <>
@@ -37,6 +64,54 @@ export default function DashboardPage() {
         </p>
 
         <DownloadReportButton />
+
+        {/* Productivity Score */}
+        <div
+          style={{
+            background: "#ffffff",
+            padding: "25px",
+            borderRadius: "15px",
+            boxShadow: "0 4px 10px rgba(0,0,0,0.1)",
+            marginTop: "20px",
+            textAlign: "center",
+          }}
+        >
+          <h2 style={{ color: "#2E7D32" }}>
+            📊 Productivity Score
+          </h2>
+
+          {loading ? (
+            <p>Loading productivity score...</p>
+          ) : productivityScore !== null ? (
+            <>
+              <div
+                style={{
+                  fontSize: "42px",
+                  fontWeight: "bold",
+                  color: "#2E7D32",
+                  marginTop: "10px",
+                }}
+              >
+                {productivityScore}%
+              </div>
+
+              <p style={{ color: "#555" }}>
+                {productivityScore >= 100
+                  ? "Good Performance"
+                  : "Needs Improvement"}
+              </p>
+            </>
+          ) : (
+            <p>Not enough data yet.</p>
+          )}
+        </div>
+
+        {/* Loading / API message */}
+        {!loading && message && (
+          <p style={{ color: "#666", marginTop: "15px" }}>
+            {message}
+          </p>
+        )}
 
         <div style={{ marginTop: "20px" }}>
           <YieldTrendChart />
