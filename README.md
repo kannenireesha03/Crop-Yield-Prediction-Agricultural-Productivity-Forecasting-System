@@ -1,227 +1,90 @@
-##  YieldSense AI - Crop Yield Prediction & Agricultural Productivity Forecasting System
+# 🌾 YieldSense AI
 
-AI-powered Crop Yield Prediction & Agricultural Productivity Forecasting System.
+## AI-Powered Crop Yield Prediction and Smart Farming System
 
-## Milestone 1 Features
+YieldSense AI is an AI-powered smart farming web application that helps
+farmers make data-driven agricultural decisions. The system combines
+Machine Learning, weather monitoring, soil health analysis, farm
+management, analytics, prediction history, risk assessment, and
+recommendations in a single platform.
 
-- User Authentication
-- Farm Profile Management
-- Soil Test Data Entry
-- Weather Integration (OpenWeatherMap)
-- Rule-Based Recommendation Engine
-- Dashboard
-
-## Technology Stack
-
-### Frontend
-
-- Next.js
-- Tailwind CSS
-- TypeScript
-
-### Backend
-
-- FastAPI
-- Uvicorn
-- Python
-
-### Database
-
-- PostgreSQL 
----
-
-# Milestone 2 Features
-
-## AI Crop Yield Prediction
-- Machine Learning based Crop Yield Prediction
-- XGBoost Regression Model
-- Real-time Yield Estimation
-- Prediction Result Display
-
-## Dashboard
-- Interactive AI Dashboard
-- Crop Yield Analytics
-- Weather Statistics
-- Soil Health Overview
-- AI Prediction Cards
-
-## Weather Module
-- Live Weather Information
-- Temperature
-- Humidity
-- Wind Speed
-- Weather Condition
-
-## Soil Health Module
-- Soil Health Status
-- Soil pH Analysis
-- Nitrogen Status
-- Phosphorus Status
-- Potassium Status
-- Moisture Monitoring
-
-## Prediction History
-- View Previous Predictions
-- Prediction Analytics
-- Historical Yield Records
-
-## Farm Profile Enhancement
-- Farmer Information
-- Farm Details Management
-- Crop Information
-- Location Details
-
-## Reusable UI Components
-- Sidebar Navigation
-- Weather Card
-- Soil Card
-- Prediction Card
-- Farm Card
-- Analytics Chart
-- Loading Component
-- Error Message Component
-
-## Machine Learning
-- XGBoost Regression Model
-- Model Training Pipeline
-- Crop Yield Prediction API
-- Joblib Model Integration
-
-## Backend APIs
-- Prediction API
-- Weather API
-- Soil API
-- History API
-- Farm Profile API
+The crop yield prediction module uses an **XGBoost Machine Learning
+model** trained on agricultural data to estimate crop yield.
 
 ---
 
-# Milestone 2 Technology Stack
+## 🎯 Objectives
 
-## Frontend
-- Next.js
-- React
-- TypeScript
-- Tailwind CSS
-
-## Backend
-- FastAPI
-- Python
-- SQLAlchemy
-- Uvicorn
-
-## Database
-- PostgreSQL
-
-## Machine Learning
-- XGBoost
-- Scikit-learn
-- Pandas
-- NumPy
-- Joblib
+- Predict crop yield using Machine Learning.
+- Analyze soil health parameters.
+- Monitor weather information.
+- Provide farm analytics and visualizations.
+- Maintain crop prediction history.
+- Manage farm information.
+- Generate farming recommendations.
+- Provide risk-related insights.
+- Provide an easy-to-use web interface.
+- Containerize the application using Docker.
 
 ---
 
-## Milestone 2 Modules
+## 🚀 Key Features
 
-- ✅ AI Dashboard
-- ✅ Crop Yield Prediction
-- ✅ Weather Monitoring
-- ✅ Soil Health Analysis
-- ✅ Prediction History
-- ✅ Farm Profile Management
-- ✅ Authentication (Login & Register)
-- ✅ Interactive Charts
-- ✅ Responsive User Interface
-# Milestone 3 Features
+### 🌾 Crop Yield Prediction
+Predict crop yield using the trained XGBoost Machine Learning model.
 
-## Analytics Dashboard
-- Interactive Analytics Dashboard
-- Yield Trend Visualization
-- Seasonal Crop Comparison
-- Dashboard Reports
-- Responsive Dashboard Interface
+### 🌱 Soil Health Analysis
+Analyze important soil parameters such as:
 
-## AI Recommendation Engine
-- Crop Recommendation System
-- Soil-based Recommendations
-- Fertilizer Suggestions
-- Irrigation Recommendations
-- Best Farming Practices
+- pH
+- Nitrogen
+- Phosphorus
+- Potassium
+- Moisture
+- Overall soil health
 
-## Agricultural Risk Assessment
-- Drought Risk Detection
-- Heat Stress Analysis
-- Flood Risk Monitoring
-- Environmental Risk Alerts
-- Risk Severity Indicators
+### 🌦️ Weather Monitoring
+Provides weather information to support agricultural decision-making.
 
-## Data Visualization
-- Yield Trend Line Chart
-- Seasonal Crop Comparison Bar Chart
-- Risk Analysis Cards
-- Recommendation Cards
-- Dashboard Analytics
+### 📊 Analytics Dashboard
+Provides visual insights including:
 
-## Report Generation
-- PDF Report Download
-- Dashboard Report Export
-- Analytics Summary Report
+- Yield trends
+- Crop comparisons
+- Prediction insights
+- Risk information
+- Recommendations
 
-## Recommendation Module
-- Rule-Based Recommendation Engine
-- Crop Selection Suggestions
-- Soil Health Improvement Tips
-- Weather-based Farming Advice
+### 📜 Prediction History
+Stores and displays previous crop prediction results.
 
-## Frontend Components
-- Yield Trend Chart
-- Seasonal Bar Chart
-- Risk Card
-- Recommendation Card
-- Download Report Button
-- Enhanced Sidebar Navigation
+### 🚜 Farm Management
+Allows users to store and manage farm-related information.
 
-## Backend APIs
-- Recommendation API
-- Risk Assessment API
-- Analytics API
-- Report Generation Support
+### 💡 Recommendations
+Generates useful farm recommendations based on available
+agricultural information and analytics.
+
+### ⚠️ Risk Assessment
+Provides risk-related insights to support better farming decisions.
+
+### 🔐 Authentication
+Provides:
+
+- User registration
+- User login
+
+### 🐳 Docker Deployment
+The application uses Docker for containerized deployment.
 
 ---
 
-# Milestone 3 Technology Stack
+# 🧠 Machine Learning
 
-## Frontend
-- Next.js
-- React
-- TypeScript
-- Recharts
-- html2pdf.js
-- Tailwind CSS
+## Algorithm
 
-## Backend
-- FastAPI
-- Python
-- SQLAlchemy
-- Uvicorn
+**XGBoost**
 
-## Database
-- PostgreSQL
-
----
-
-## Milestone 3 Modules
-
-- ✅ Analytics Dashboard
-- ✅ Yield Trend Analysis
-- ✅ Seasonal Crop Comparison
-- ✅ AI Recommendation Engine
-- ✅ Agricultural Risk Assessment
-- ✅ Recommendation Cards
-- ✅ Risk Assessment Cards
-- ✅ PDF Report Download
-- ✅ Enhanced Dashboard
-- ✅ Sidebar Navigation
-- ✅ FastAPI Analytics APIs
-- ✅ Responsive User Interface
+XGBoost was selected because the project works with structured
+agricultural/tabular data and the algorithm is suitable for learning
+non-linear relationships between input features and crop yield.
