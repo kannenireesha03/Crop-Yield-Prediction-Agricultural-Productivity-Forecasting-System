@@ -1,84 +1,109 @@
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
-import pandas as pd
+from pathlib import Path
 import joblib
-import os
 
-from database import SessionLocal
-from models.prediction import Prediction
 
 router = APIRouter()
 
+
+# =========================================================
 # Load trained ML model
-MODEL_PATH = os.path.join(
-    os.path.dirname(__file__),
-    "..",
-    "..",
-    "data",
-    "processed",
-    "crop_yield_model.pkl"
+# =========================================================
+
+MODEL_PATH = (
+    Path(__file__).resolve().parent.parent
+    / "data"
+    / "processed"
+    / "crop_yield_model.pkl"
 )
 
-model = joblib.load(MODEL_PATH)
+try:
+    model = joblib.load(MODEL_PATH)
+    print("✅ Crop yield model loaded successfully")
 
+except Exception as e:
+    model = None
+    print(f"❌ Error loading model: {e}")
+
+
+# =========================================================
+# Request Model
+# =========================================================
 
 class PredictionRequest(BaseModel):
-    area: str
-    item: str
+    area: int
+    item: int
     year: int
     rainfall: float
     pesticides: float
     temperature: float
 
 
+# =========================================================
+# Prediction Endpoint
+# =========================================================
+
 @router.post("/predict-yield")
 def predict_yield(data: PredictionRequest):
 
-    db = SessionLocal()
+    # Check whether model was loaded
+    if model is None:
+        raise HTTPException(
+            status_code=500,
+            detail="ML model could not be loaded."
+        )
 
     try:
 
-        # Temporary encoding for Area & Item
-        area_code = abs(hash(data.area)) % 1000
-        item_code = abs(hash(data.item)) % 1000
+        # =================================================
+        # Prepare input features
+        # =================================================
+        # IMPORTANT:
+        # The order must be the same as the training order:
+        #
+        # Area
+        # Item
+        # Year
+        # average_rain_fall_mm_per_year
+        # pesticides_tonnes
+        # avg_temp
+        # =================================================
 
-        input_df = pd.DataFrame([{
-            "Area": area_code,
-            "Item": item_code,
-            "Year": data.year,
-            "average_rain_fall_mm_per_year": data.rainfall,
-            "pesticides_tonnes": data.pesticides,
-            "avg_temp": data.temperature
-        }])
+        features = [[
+            data.area,
+            data.item,
+            data.year,
+            data.rainfall,
+            data.pesticides,
+            data.temperature
+        ]]
 
-        prediction = round(float(model.predict(input_df)[0]), 2)
+        # =================================================
+        # Generate prediction
+        # =================================================
 
-        # Save prediction in PostgreSQL
-        new_prediction = Prediction(
-            area=data.area,
-            item=data.item,
-            year=data.year,
-            rainfall=data.rainfall,
-            pesticides=data.pesticides,
-            temperature=data.temperature,
-            predicted_yield=prediction
-        )
+        prediction = model.predict(features)
 
-        db.add(new_prediction)
-        db.commit()
-        db.refresh(new_prediction)
+        predicted_yield = float(prediction[0])
+
+        # =================================================
+        # Return response
+        # =================================================
 
         return {
-            "message": "Prediction saved successfully",
-            "predicted_yield": prediction
+            "area": data.area,
+            "item": data.item,
+            "year": data.year,
+            "rainfall": data.rainfall,
+            "pesticides": data.pesticides,
+            "temperature": data.temperature,
+            "predicted_yield": round(predicted_yield, 2)
         }
 
     except Exception as e:
-        db.rollback()
+
         raise HTTPException(
             status_code=500,
-            detail=str(e)
+            detail=f"Prediction failed: {str(e)}"
         )
-
-    finally:
-        db.close()

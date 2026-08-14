@@ -1,7 +1,13 @@
+import os
+
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, declarative_base
 
-DATABASE_URL = "postgresql://postgres:Nireesha03@localhost:5432/yieldsense_db"
+
+DATABASE_URL = os.getenv(
+    "DATABASE_URL",
+    "postgresql://postgres:Nireesha03@localhost:5432/yieldsense_db"
+)
 
 engine = create_engine(DATABASE_URL)
 
@@ -12,3 +18,11 @@ SessionLocal = sessionmaker(
 )
 
 Base = declarative_base()
+
+
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()

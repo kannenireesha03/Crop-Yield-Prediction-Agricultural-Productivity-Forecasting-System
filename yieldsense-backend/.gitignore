@@ -10,4 +10,10 @@ yieldsense-frontend/.next/
 # OS files
 .DS_Store
 Thumbs.db
+
+# Environment variables
 .env
+.env.*
+
+# Docker
+docker_wheels/
